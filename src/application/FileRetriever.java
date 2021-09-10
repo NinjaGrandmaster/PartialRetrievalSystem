@@ -2,10 +2,11 @@ package application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileRetriever {
     private File directory;
-    private ArrayList<String> fileList;
+    private List<File> fileList;
 
     public FileRetriever (File directory) {
         this.directory = directory;
@@ -16,7 +17,7 @@ public class FileRetriever {
             // Does not support subfolder file discovery
             if (!file.isDirectory()) {
                 // add names of each file in a directory to list
-                fileList.add(file.getName());
+                fileList.add(file);
             }
         }
 
@@ -26,7 +27,7 @@ public class FileRetriever {
         return this.directory.toString();
     }
 
-    public ArrayList<String> getFileList() {
+    public List<File> getFileList() {
         return this.fileList;
     }
 
