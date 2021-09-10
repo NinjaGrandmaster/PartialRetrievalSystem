@@ -15,8 +15,9 @@ public class Main {
 
         if (directory.isDirectory()) {
             FileRetriever fileRetriever = new FileRetriever(directory);
+            InvertedIndex invertedIndex = new InvertedIndex();
 
-            System.out.println(fileRetriever);
+            invertedIndex.createIndex(fileRetriever.getFileList());
 
         } else {
             System.out.println("Not a directory");
