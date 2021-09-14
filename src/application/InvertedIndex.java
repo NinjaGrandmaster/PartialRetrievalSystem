@@ -10,12 +10,23 @@ import java.util.Map;
 
 public class InvertedIndex {
     //TODO: add hash map instance variables for posting index and Document index
+    Map<String, String> stopWordsMap; // map of stop words that should not be included in the inverted index
 
-    public InvertedIndex (){
+    public InvertedIndex() {
+        this.stopWordsMap = new HashMap<>();
+    }
+
+    public InvertedIndex (Map<String, String> stopWordsMap){
+        // if map is null create a new hash map object
+        if (stopWordsMap == null) {
+            this.stopWordsMap = new HashMap<>();
+        } else {
+            this.stopWordsMap = stopWordsMap;
+        }
     }
 
     public void createIndex(List<File> filesList) {
-
+        //TODO: implement code to generate actual inverted index
         for (File file : filesList) {
             System.out.println("Name:" + file.getName());
             System.out.println(this.getDocWordList(file).toString());
@@ -26,13 +37,8 @@ public class InvertedIndex {
     // Method receives a file as in put and produces a list of words
     // punctuation is removed, words are changed to lower case, and stop words removed from file
     public List<String> getDocWordList(File file) {
-        // Place holder for know
+        // List to hold word in a file
         List<String> wordList = new ArrayList<>();
-
-        // TODO: Remove and create a map of stop words outside of this class
-        // for testing purposed only
-        Map<String, String> tempMap= new HashMap<>();
-        tempMap.putIfAbsent("a", "a");
 
         try {
             // read file line by line
@@ -42,12 +48,11 @@ public class InvertedIndex {
                     // add words to word list if they are not stop words or empty strings
                     .forEach(words -> {
                         for (String word : words) {
-                            if (!tempMap.containsKey(word) && !word.isEmpty()) {
+                            if (!this.stopWordsMap.containsKey(word) && !word.isEmpty()) {
                                 wordList.add(word);
                             }
                         }
                     });
-
         } catch (Exception e) {
             System.out.println("Error:\n" + e.getMessage());
         }
