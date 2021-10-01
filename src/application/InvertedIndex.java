@@ -68,4 +68,21 @@ public class InvertedIndex {
     public Map<String, Integer> getDocumentIndex() {
         return this.documentIndex;
     }
+
+    // Method counts the frequency of a word in a list assuming the list in unsorted
+    // Params: target word and a list of stings
+    // Output: integer representing frequency of target word in provided list
+    private int countWordFreq(String targetWord, List<String> wordList) {
+        int count = 0;
+
+        if (!wordList.isEmpty()) {
+            for(String word : wordList) {
+                if (word.equals(targetWord)) {
+                    count += 1;
+                }
+            }
+        }
+
+        return count;
+    }
 } // end of InvertedIndex class
