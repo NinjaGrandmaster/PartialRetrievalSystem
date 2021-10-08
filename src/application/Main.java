@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -20,11 +21,27 @@ public class Main {
             InvertedIndex invertedIndex = new InvertedIndex(stopWordGenerator.getStopWordMap());
 
             invertedIndex.createIndex(fileRetriever.getFileList());
-            Map<String, Integer> docIndex = invertedIndex.getDocumentIndex();
 
-            for (String docName: docIndex.keySet()) {
-                System.out.println(docName + " - " + docIndex.get(docName));
+            TfIdfLookup tfIdfLookup = new TfIdfLookup(
+                    invertedIndex.getDocumentIndex(),
+                    invertedIndex.getPostingIndex()
+            );
+
+            while (true) {
+                System.out.println("Enter a term:");
+                String term = scanner.nextLine().toLowerCase();
+
+                System.out.println(tfIdfLookup.lookup(term));
+
+                System.out.println("Enter another term?");
+                System.out.println("Y/y - to continue, anything else to end program");
+                String anotherTerm = scanner.nextLine();
+
+                if (!anotherTerm.toLowerCase().equals("y")) {
+                    break;
+                }
             }
+
 
         } else {
             System.out.println("Not a directory");
