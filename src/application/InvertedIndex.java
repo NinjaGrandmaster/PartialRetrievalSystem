@@ -12,10 +12,12 @@ public class InvertedIndex {
     //TODO: add hash map instance variable for posting index
     Map<String, String> stopWordsMap; // map of stop words that should not be included in the inverted index
     Map<String, Integer> documentIndex; // map contains number of terms in a document after removing stop words
+    Map<String, PostingUnit> postingIndex; // posting index for terms and documents
 
     public InvertedIndex() {
         this.stopWordsMap = new HashMap<>();
         this.documentIndex = new HashMap<>();
+        this.postingIndex = new HashMap<>();
     }
 
     public InvertedIndex (Map<String, String> stopWordsMap){
@@ -27,15 +29,28 @@ public class InvertedIndex {
         }
 
         this.documentIndex = new HashMap<>();
+        this.postingIndex = new HashMap<>();
     }
 
     public void createIndex(List<File> filesList) {
-        //TODO: implement code to generate posting index
+        // loop through all files/documents
         for (File file : filesList) {
 
             List<String> wordList = this.getDocWordList(file);
-            
+
+            // add document to document index along with number of words found in that document
             documentIndex.putIfAbsent(file.getName(), wordList.size());
+            // loop through all words found in a document and add them into posting index
+            for (String word : wordList) {
+                // if term exists in the posting index increment its count in the current document
+                // else add it to posting index with document it was found in
+                if (this.postingIndex.containsKey(word)) {
+                    this.postingIndex.get(word).incrementFrequency(file.getName());
+                } else {
+                    this.postingIndex.put(word, new PostingUnit(file.getName()));
+                }
+            }
+
         }
     }
 
@@ -67,6 +82,10 @@ public class InvertedIndex {
 
     public Map<String, Integer> getDocumentIndex() {
         return this.documentIndex;
+    }
+
+    public Map<String, PostingUnit> getPostingIndex() {
+        return this.postingIndex;
     }
 
     // Method counts the frequency of a word in a list assuming the list in unsorted
