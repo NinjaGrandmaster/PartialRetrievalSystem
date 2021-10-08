@@ -10,6 +10,11 @@ public class PostingUnit {
         this.postingMap = new HashMap<>();
     }
 
+    public PostingUnit (String docID) {
+        this.postingMap = new HashMap<>();
+        this.incrementFrequency(docID);
+    }
+
     // return number of documents a term has appeared in
     public int getDocumentCount() {
         return this.postingMap.size();
