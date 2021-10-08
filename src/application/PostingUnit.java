@@ -41,6 +41,6 @@ public class PostingUnit {
             outString += "(" + key + ", " + this.getPostingMap().get(key) + "), ";
         }
 
-        return outString + "\n";
+        return outString;
     }
 }
