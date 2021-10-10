@@ -39,11 +39,11 @@ public class TfIdfLookup {
     }
 
     private double calculateTFIDF(int termFreq, int wordsInDoc, int docsInCollection, int termDocAppearances) {
-        // TODO: check accuracy of method
+        // calculate the term frequency
         double tf = (double) termFreq / (double) wordsInDoc;
-
+        // calculate the inverse document frequency
         double idf = 1 + (Math.log((double) docsInCollection / (double) (termDocAppearances + 1)) / Math.log(2));
-
+        // return the TF-IDF value for term
         return tf * idf;
     }
 }
