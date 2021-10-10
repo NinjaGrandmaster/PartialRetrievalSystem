@@ -1,9 +1,6 @@
 package application;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -11,7 +8,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter a directory");
+        System.out.println("Enter a document directory");
         String dirName = scanner.nextLine();
         File directory = new File(dirName);
         StopWordGenerator stopWordGenerator = new StopWordGenerator();
@@ -20,16 +17,17 @@ public class Main {
             FileRetriever fileRetriever = new FileRetriever(directory);
             InvertedIndex invertedIndex = new InvertedIndex(stopWordGenerator.getStopWordMap());
 
+            // create the inverted index
             invertedIndex.createIndex(fileRetriever.getFileList());
 
             TfIdfLookup tfIdfLookup = new TfIdfLookup(
-                    invertedIndex.getDocumentIndex(),
-                    invertedIndex.getPostingIndex()
+                    invertedIndex.getDocumentIndex(), // pass document index to look up class
+                    invertedIndex.getPostingIndex()   // pass posting index to look up class
             );
 
             while (true) {
                 System.out.println("Enter a term:");
-                String term = scanner.nextLine().toLowerCase();
+                String term = scanner.nextLine().replaceAll("\\p{Punct}", "").toLowerCase();
 
                 System.out.println(tfIdfLookup.lookup(term));
 
@@ -37,7 +35,7 @@ public class Main {
                 System.out.println("Y/y - to continue, anything else to end program");
                 String anotherTerm = scanner.nextLine();
 
-                if (!anotherTerm.toLowerCase().equals("y")) {
+                if (!anotherTerm.equalsIgnoreCase("y")) {
                     break;
                 }
             }
