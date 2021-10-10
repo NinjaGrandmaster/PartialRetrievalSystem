@@ -29,6 +29,7 @@ public class Main {
                 System.out.println("Enter a term:");
                 String term = scanner.nextLine().replaceAll("\\p{Punct}", "").toLowerCase();
 
+                System.out.println("Document Name - TF-IDF Score");
                 System.out.println(tfIdfLookup.lookup(term));
 
                 System.out.println("Enter another term?");
